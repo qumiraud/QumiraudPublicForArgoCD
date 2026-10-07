@@ -1,22 +1,9 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: v1
 metadata:
-  name: mon-app
+  name: repo-config
   namespace: argocd
-spec:
-  # La source : quel dépôt Git et quel chemin
-  source:
-    repoURL: https://github.com/qumiraud/QumiraudPublicForArgoCD
-    targetRevision: main
-    #path:
-
-  # La destination : quel cluster et quel namespace
-  destination:
-    server: https://kubernetes.default.svc  # cluster local
-    namespace: dev
-
-  # La politique de synchronisation
-  syncPolicy:
-    automated:           # synchronisation automatique
-      selfHeal: true     # correction du drift automatique
-      prune: true        # suppression des ressources retirées de Git
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/qumiraud/QumiraudPublicForArgoCD
